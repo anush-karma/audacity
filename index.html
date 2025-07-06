@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audacity - A lifestyle brand for the unapologetic.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light gray background for contrast */
+            color: #111827;
+            overflow-x: hidden;
+        }
+
+        /* Define brand colors using CSS variables */
+        :root {
+            --brand-yellow: #FDE047;
+            --brand-blue: #3B82F6; /* Electric Blue */
+            --brand-dark: #111827;
+            --brand-light: #FFFFFF;
+        }
+
+        /* Styling for the content panels */
+        .content-panel {
+            border: 3px solid var(--brand-dark);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            background-color: var(--brand-light);
+            box-shadow: 8px 8px 0px 0px var(--brand-dark);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .content-panel:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 6px 6px 0px 0px var(--brand-dark);
+        }
+
+        /* Special styling for the yellow panel */
+        .panel-yellow {
+            background-color: var(--brand-yellow);
+            box-shadow: 8px 8px 0px 0px var(--brand-dark);
+        }
+        .panel-yellow:hover {
+             box-shadow: 6px 6px 0px 0px var(--brand-dark);
+        }
+
+        /* Custom button styling with a new blue shadow */
+        .btn-primary {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 4px 4px 0px 0px var(--brand-blue);
+            border: 3px solid var(--brand-dark);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px var(--brand-blue);
+        }
+
+        /* Custom focus ring for accessibility with the new blue */
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--brand-dark), 0 0 0 6px var(--brand-blue);
+        }
+        
+        /* Style for highlighting text */
+        .highlight {
+            background-color: var(--brand-yellow);
+            padding: 0.1em 0.3em;
+            border-radius: 0.2em;
+        }
+
+        /* NEW: Style for the title underlines */
+        .title-underline {
+            display: inline-block; /* Ensures the underline only spans the text width */
+            border-bottom: 5px solid var(--brand-yellow);
+            padding-bottom: 0.25rem; /* Space between text and underline */
+            line-height: 1.1; /* Adjust line height for better visual */
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header Section with Logo -->
+        <header class="content-panel panel-yellow mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <!-- User will change src to "logo.png" upon deployment -->
+                <img src="https://storage.googleapis.com/gemini-prod-us-west1-409907-409907/v1/files/Logo.png-c854f92b-863b-48fc-ace7-43efbd18021e" alt="Audacity Logo" class="h-16 md:h-20 w-auto" onerror="this.onerror=null; this.src='https://placehold.co/200x60/000000/FFFFFF?text=Logo';">
+                <div class="text-center md:text-right">
+                    <h1 class="text-2xl md:text-3xl font-bold text-black">A lifestyle brand for the unapologetic.</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- The Philosophy Panel -->
+            <div class="content-panel lg:col-span-1">
+                <h2 class="text-3xl font-black mb-6"><span class="title-underline">The Philosophy.</span></h2>
+                <div class="space-y-4 text-lg leading-relaxed">
+                    <p>Because sometimes you don't want support. You want <span class="highlight">judgement</span>.</p>
+                    <p><span class="highlight">Not fake kindness.</span> Not passive positivity.</p>
+                    <p>Audacity is your <span class="highlight">petty bestie</span>, dressed in <span class="highlight">sarcasm</span>, dipped in <span class="highlight">truth</span>, and printed on a T-shirt.</p>
+                </div>
+            </div>
+
+            <!-- The Debut Tee Panel -->
+            <div class="content-panel lg:col-span-1 flex flex-col">
+                <h2 class="text-3xl font-black mb-6"><span class="title-underline">The Debut Tee.</span></h2>
+                <div class="flex-grow flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <!-- User will change src to "debut-tee.png" upon deployment -->
+                        <img src="https://storage.googleapis.com/gemini-prod-us-west1-409907-409907/v1/files/debut-tee.jpg-522a794c-741b-40cf-b02e-964e6519134d" alt="Audacity Debut Tee" class="rounded-lg object-cover w-full h-full border-2 border-black" onerror="this.onerror=null; this.src='https://placehold.co/400x400/cccccc/111827?text=Debut+Tee';">
+                    </div>
+                    <div class="md:w-1/2">
+                         <ul class="space-y-3 text-lg">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>100% Heavyweight Cotton</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Garment-Dyed for a Vintage Feel</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Unisex Relaxed Fit</span>
+                            </li>
+                             <li class="flex items-center gap-3">
+                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Built to Last</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Capture Panel (Spans full width on large screens) -->
+            <div class="content-panel lg:col-span-2">
+                <div class="max-w-xl mx-auto text-center">
+                    <h2 class="text-3xl font-black mb-4"><span class="title-underline">Get The Drop First.</span></h2>
+                    <p class="text-lg mb-6">Be the first to access our debut collection and get a special launch discount.</p>
+                    
+                    <form id="signup-form" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                        <input 
+                            type="email" 
+                            id="email-input"
+                            name="email" 
+                            placeholder="your.email@example.com" 
+                            required
+                            class="form-input flex-grow bg-white text-black placeholder-gray-500 px-4 py-3 rounded-md border-3 border-black text-lg transition"
+                        >
+                        <button 
+                            type="submit"
+                            class="btn-primary bg-black text-white px-8 py-3 rounded-md text-lg"
+                        >
+                            Count Me In
+                        </button>
+                    </form>
+                    <div id="form-message" class="mt-4 text-lg font-semibold text-center"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 py-8 mt-8">
+            <p>&copy; 2025 Audacity. Because subtle is overrated.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Email Form Submission ---
+        const form = document.getElementById('signup-form');
+        const messageDiv = document.getElementById('form-message');
+        const emailInput = document.getElementById('email-input');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const email = emailInput.value;
+            console.log(`Email submitted: ${email}`);
+            
+            messageDiv.textContent = 'Adding you to the list...';
+            messageDiv.style.color = '#111827'; // a dark gray
+
+            setTimeout(() => {
+                messageDiv.textContent = 'Thanks! You\'re in. We\'ll be in touch.';
+                messageDiv.style.color = '#16A34A'; // a nice green
+                form.reset();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
