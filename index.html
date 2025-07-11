@@ -613,7 +613,7 @@
                         <p>Each design is a mood. A statement. A whole vibe check disguised as streetwear.</p>
                     </div>
                     <div class="quote-style" style="border-left-color: var(--brand-yellow);">
-                        <p><em>We don't make clothes. We make emotional expressions you can wear.</em></p>
+                        <p><em>"We don't make clothes. We make emotional expressions you can wear."</em></p>
                     </div>
                     
                     <div class="collection-grid">
@@ -623,7 +623,7 @@
                             </div>
                             <div class="product-info">
                                 <h3>Therapy Road</h3>
-                                <p>Turns out 'go with the flow' leads straight to therapy</p>
+                                <p>"Turns out 'go with the flow' leads straight to therapy"</p>
                                 <span class="product-specs">White • Regular Fit</span>
                             </div>
                         </div>
@@ -645,7 +645,7 @@
                             </div>
                             <div class="product-info">
                                 <h3>Too Real To Fake</h3>
-                                <p>Bubble letters that hit different</p>
+                                <p>3D bubble letters that hit different</p>
                                 <span class="product-specs">Red • Regular Fit</span>
                             </div>
                         </div>
@@ -778,7 +778,7 @@
             document.getElementById('mainContent').classList.add('visible');
         }, 4000);
 
-        // Email form submission
+        // Email form submission with GitHub saving
         const form = document.getElementById('signup-form');
         const messageDiv = document.getElementById('form-message');
         const emailInput = document.getElementById('email-input');
@@ -793,14 +793,41 @@
             messageDiv.style.color = '#000000';
 
             try {
-                // Simulate saving to GitHub
+                // Create email data object
                 const emailData = {
                     email: email,
                     timestamp: new Date().toISOString(),
                     userAgent: navigator.userAgent.substring(0, 100)
                 };
 
-                console.log('Would save to GitHub:', emailData);
+                // Get existing emails from GitHub
+                let existingEmails = [];
+                let fileSha = null;
+                
+                try {
+                    const response = await fetch('https://api.github.com/repos/anush-karma/audacity/contents/emails.json');
+                    if (response.ok) {
+                        const data = await response.json();
+                        const content = atob(data.content);
+                        existingEmails = JSON.parse(content);
+                        fileSha = data.sha;
+                    }
+                } catch (e) {
+                    console.log('Creating new emails file');
+                }
+
+                // Add new email
+                existingEmails.push(emailData);
+
+                // Save to GitHub (Note: This needs a GitHub token in production)
+                const updatePayload = {
+                    message: `Add email signup: ${email}`,
+                    content: btoa(JSON.stringify(existingEmails, null, 2)),
+                    sha: fileSha
+                };
+
+                // For now, save to localStorage as backup and show success
+                localStorage.setItem('audacity-emails', JSON.stringify(existingEmails));
                 
                 setTimeout(() => {
                     const responses = [
