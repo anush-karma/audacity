@@ -3,199 +3,890 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audacity - A lifestyle brand for the unapologetic.</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Audacity - Say it with your chest. Or don't say it at all.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Custom Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --brand-black: #000000;
+            --brand-silver: #C0C0C0;
+            --brand-wine: #722F37;
+            --brand-yellow: #FFD700;
+            --brand-light: #FFFFFF;
+            --brand-gray: #F5F5F5;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F3F4F6; /* Light gray background for contrast */
-            color: #111827;
+            background-color: var(--brand-gray);
+            color: var(--brand-black);
             overflow-x: hidden;
         }
 
-        /* Define brand colors using CSS variables */
-        :root {
-            --brand-yellow: #FDE047;
-            --brand-blue: #3B82F6; /* Electric Blue */
-            --brand-dark: #111827;
-            --brand-light: #FFFFFF;
+        /* Loading Animation */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--brand-black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        /* Styling for the content panels */
-        .content-panel {
-            border: 3px solid var(--brand-dark);
-            border-radius: 0.5rem;
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .petty-messages {
+            color: var(--brand-yellow);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInOut 1.5s ease-in-out;
+            max-width: 600px;
+            line-height: 1.3;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(20px); }
+            50% { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: var(--brand-wine);
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 2px solid var(--brand-yellow);
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--brand-yellow);
+            width: 0%;
+            border-radius: 0;
+            animation: loadProgress 3s ease-out forwards;
+        }
+
+        @keyframes loadProgress {
+            to { width: 100%; }
+        }
+
+        .loading-text {
+            color: var(--brand-silver);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
+        }
+
+        /* Content panels */
+        .content-panel {
+            border: 6px solid var(--brand-black);
+            border-radius: 0;
+            padding: 3rem;
             background-color: var(--brand-light);
-            box-shadow: 8px 8px 0px 0px var(--brand-dark);
-            transition: all 0.2s ease-in-out;
+            box-shadow: 16px 16px 0px 0px var(--brand-black);
+            transition: all 0.2s ease;
+            margin-bottom: 3rem;
+            position: relative;
         }
         
         .content-panel:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 6px 6px 0px 0px var(--brand-dark);
+            transform: translate(-6px, -6px);
+            box-shadow: 22px 22px 0px 0px var(--brand-black);
         }
 
-        /* Special styling for the yellow panel */
-        .panel-yellow {
-            background-color: var(--brand-yellow);
-            box-shadow: 8px 8px 0px 0px var(--brand-dark);
-        }
-        .panel-yellow:hover {
-             box-shadow: 6px 6px 0px 0px var(--brand-dark);
+        .panel-header {
+            background: var(--brand-yellow);
+            box-shadow: 16px 16px 0px 0px var(--brand-wine);
         }
 
-        /* Custom button styling with a new blue shadow */
+        .panel-header:hover {
+            box-shadow: 22px 22px 0px 0px var(--brand-wine);
+        }
+
+        .panel-hero {
+            background: var(--brand-black);
+            color: var(--brand-light);
+            box-shadow: 16px 16px 0px 0px var(--brand-yellow);
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-hero:hover {
+            box-shadow: 22px 22px 0px 0px var(--brand-yellow);
+        }
+
+        .panel-about {
+            background: var(--brand-wine);
+            color: var(--brand-light);
+            box-shadow: 16px 16px 0px 0px var(--brand-silver);
+        }
+
+        .panel-about:hover {
+            box-shadow: 22px 22px 0px 0px var(--brand-silver);
+        }
+
+        .panel-product {
+            background: var(--brand-silver);
+            color: var(--brand-black);
+            box-shadow: 16px 16px 0px 0px var(--brand-wine);
+        }
+
+        .panel-product:hover {
+            box-shadow: 22px 22px 0px 0px var(--brand-wine);
+        }
+
+        .panel-email {
+            background: var(--brand-yellow);
+            color: var(--brand-black);
+            box-shadow: 16px 16px 0px 0px var(--brand-black);
+        }
+
+        .panel-email:hover {
+            box-shadow: 22px 22px 0px 0px var(--brand-black);
+        }
+
+        /* Header styling */
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+            }
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(4px 4px 0px var(--brand-black));
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .brand-tagline {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 900;
+            text-align: center;
+            color: var(--brand-black);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        /* Hero section */
+        .hero-headline {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtext {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 600;
+            color: var(--brand-yellow);
+            margin-bottom: 2rem;
+        }
+
+        /* Typography */
+        .section-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .title-highlight {
+            background: var(--brand-yellow);
+            color: var(--brand-black);
+            padding: 0.2em 0.5em;
+            transform: rotate(-1deg);
+            display: inline-block;
+            border: 4px solid var(--brand-black);
+        }
+
+        .manifesto-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .highlight {
+            background: var(--brand-yellow);
+            color: var(--brand-black);
+            padding: 0.2em 0.4em;
+            font-weight: 900;
+            border: 3px solid var(--brand-black);
+            transform: rotate(1deg);
+            display: inline-block;
+            margin: 0 0.1em;
+        }
+
+        .quote-style {
+            font-style: italic;
+            font-weight: 600;
+            border-left: 6px solid var(--brand-yellow);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        /* Product section */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .product-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border: 5px solid var(--brand-black);
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02) rotate(-1deg);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--brand-wine);
+            flex-shrink: 0;
+        }
+
+        /* Email capture */
+        .email-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 2rem auto 0;
+        }
+
+        @media (min-width: 640px) {
+            .email-form {
+                flex-direction: row;
+            }
+        }
+
+        .email-input {
+            flex-grow: 1;
+            background: var(--brand-light);
+            color: var(--brand-black);
+            padding: 1.2rem 1.5rem;
+            border: 5px solid var(--brand-black);
+            border-radius: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            box-shadow: 8px 8px 0px 0px var(--brand-wine);
+            transform: translate(-4px, -4px);
+        }
+
+        .email-input::placeholder {
+            color: var(--brand-silver);
+            font-weight: 500;
+        }
+
         .btn-primary {
-            transition: all 0.2s ease-in-out;
-            box-shadow: 4px 4px 0px 0px var(--brand-blue);
-            border: 3px solid var(--brand-dark);
-            font-weight: 700;
+            background: var(--brand-black);
+            color: var(--brand-yellow);
+            padding: 1.2rem 2.5rem;
+            border: 5px solid var(--brand-black);
+            border-radius: 0;
+            font-size: 1.2rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 8px 8px 0px 0px var(--brand-wine);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn-primary:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px 0px var(--brand-wine);
+            background: var(--brand-wine);
+            color: var(--brand-yellow);
+        }
+
+        .btn-primary:active {
             transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px 0px var(--brand-blue);
+            box-shadow: 4px 4px 0px 0px var(--brand-wine);
         }
 
-        /* Custom focus ring for accessibility with the new blue */
-        .form-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px var(--brand-dark), 0 0 0 6px var(--brand-blue);
-        }
-        
-        /* Style for highlighting text */
-        .highlight {
-            background-color: var(--brand-yellow);
-            padding: 0.1em 0.3em;
-            border-radius: 0.2em;
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #666666;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            font-size: 1rem;
+            border-top: 3px solid var(--brand-black);
         }
 
-        /* NEW: Style for the title underlines */
-        .title-underline {
-            display: inline-block; /* Ensures the underline only spans the text width */
-            border-bottom: 5px solid var(--brand-yellow);
-            padding-bottom: 0.25rem; /* Space between text and underline */
-            line-height: 1.1; /* Adjust line height for better visual */
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
 
+        .contact-link {
+            color: var(--brand-black);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border: 3px solid var(--brand-black);
+            background: var(--brand-yellow);
+            transition: all 0.2s ease;
+        }
+
+        .contact-link:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px 0px var(--brand-wine);
+        }
+
+        /* Form message */
+        .form-message {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Grid layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        /* Collection grid styling */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-mockup {
+            width: 100%;
+            height: 400px;
+            border: 5px solid var(--brand-black);
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background: var(--brand-silver);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--brand-light);
+            text-transform: uppercase;
+        }
+
+        .product-info p {
+            font-size: 1.1rem;
+            color: var(--brand-silver);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            color: var(--brand-yellow);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .content-panel {
+                padding: 2rem;
+                box-shadow: 12px 12px 0px 0px var(--brand-black);
+            }
+            
+            .content-panel:hover {
+                transform: translate(-4px, -4px);
+                box-shadow: 16px 16px 0px 0px var(--brand-black);
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--brand-yellow);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
     </style>
 </head>
-<body class="antialiased">
+<body>
+    <!-- Loading Animation -->
+    <div class="loader-container" id="loader">
+        <div class="petty-messages" id="pettyMessage">
+            We don't do soft. We do real.
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <div class="loading-text">Preparing your emotional expression...</div>
+    </div>
 
-    <div class="container mx-auto p-4 md:p-8">
-        <!-- Header Section with Logo -->
-        <header class="content-panel panel-yellow mb-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                <!-- CORRECTED file path to be case-sensitive -->
-                <img src="Logo.png" alt="Audacity Logo" class="h-16 md:h-20 w-auto" onerror="this.onerror=null; this.src='https://placehold.co/200x60/000000/FFFFFF?text=Logo';">
-                <div class="text-center md:text-right">
-                    <h1 class="text-2xl md:text-3xl font-bold text-black">A lifestyle brand for the unapologetic.</h1>
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Header Section -->
+            <header class="content-panel panel-header">
+                <div class="header-content">
+                    <img src="Logo.png" alt="Audacity Logo" class="logo-img" onerror="this.onerror=null; this.src='https://placehold.co/200x80/FFD700/000000?text=AUDACITY';">
+                    <h1 class="brand-tagline">Because subtle is overrated</h1>
                 </div>
-            </div>
-        </header>
+            </header>
 
-        <!-- Main Content Grid -->
-        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            <!-- The Philosophy Panel -->
-            <div class="content-panel lg:col-span-1">
-                <h2 class="text-3xl font-black mb-6"><span class="title-underline">The Philosophy.</span></h2>
-                <div class="space-y-4 text-lg leading-relaxed">
-                    <p>Because sometimes you don't want support. You want <span class="highlight">judgement</span>.</p>
-                    <p><span class="highlight">Not fake kindness.</span> Not passive positivity.</p>
-                    <p>Audacity is your <span class="highlight">petty bestie</span>, dressed in <span class="highlight">sarcasm</span>, dipped in <span class="highlight">truth</span>, and printed on a T-shirt.</p>
-                </div>
-            </div>
-
-            <!-- The Debut Tee Panel -->
-            <div class="content-panel lg:col-span-1 flex flex-col">
-                <h2 class="text-3xl font-black mb-6"><span class="title-underline">The Debut Tee.</span></h2>
-                <div class="flex-grow flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/2">
-                        <!-- CORRECTED file path to use .png extension -->
-                        <img src="debut-tee.png" alt="Audacity Debut Tee" class="rounded-lg object-cover w-full h-full border-2 border-black" onerror="this.onerror=null; this.src='https://placehold.co/400x400/cccccc/111827?text=Debut+Tee';">
-                    </div>
-                    <div class="md:w-1/2">
-                         <ul class="space-y-3 text-lg">
-                            <li class="flex items-center gap-3">
-                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>100% Heavyweight Cotton</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Garment-Dyed for a Vintage Feel</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Unisex Relaxed Fit</span>
-                            </li>
-                             <li class="flex items-center gap-3">
-                                <svg class="w-6 h-6 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Built to Last</span>
-                            </li>
-                        </ul>
+            <!-- Main Content Grid -->
+            <main class="main-grid">
+                <!-- Hero Section -->
+                <div class="content-panel panel-hero">
+                    <h2 class="hero-headline">Say it with your chest.<br>Or don't say it at all.</h2>
+                    <p class="hero-subtext">T-shirts for the unapologetically petty, the chronically blunt, and the aesthetically over-it.</p>
+                    <p class="hero-subtext">We don't do soft. We do real.</p>
+                    <p class="hero-cta">👉 Scroll if you're brave enough to be seen.</p>
+                    <div class="scroll-indicator">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
                     </div>
                 </div>
-            </div>
 
-            <!-- Email Capture Panel (Spans full width on large screens) -->
-            <div class="content-panel lg:col-span-2">
-                <div class="max-w-xl mx-auto text-center">
-                    <h2 class="text-3xl font-black mb-4"><span class="title-underline">Get The Drop First.</span></h2>
-                    <p class="text-lg mb-6">Be the first to access our debut collection and get a special launch discount.</p>
+                <!-- About Section -->
+                <div class="content-panel panel-about">
+                    <h2 class="section-title"><span class="title-highlight">Why Audacity?</span> Because Nice is Overrated.</h2>
+                    <div class="manifesto-text">
+                        <p>Audacity was born from that one moment you should've said something… but didn't.</p>
+                    </div>
+                    <div class="manifesto-text">
+                        <p>Now, you wear it. <span class="highlight">Boldly.</span> <span class="highlight">Sarcastically.</span> <span class="highlight">Fashionably.</span></p>
+                    </div>
+                    <div class="manifesto-text">
+                        <p>We're not here to help you heal. We're here to help you serve judgment — with the sleeves rolled up.</p>
+                    </div>
+                    <div class="quote-style">
+                        <p>"This isn't just merch. It's a lifestyle. We speak fluent eye-roll, text-back regret, and emotional damage — in Helvetica bold."</p>
+                    </div>
+                    <div class="manifesto-text">
+                        <p>Audacity is the bestie who tells you: <strong>"You're being too nice. Stop it."</strong></p>
+                    </div>
+                    <div class="manifesto-text">
+                        <p>Petty? Yes. Stylish? Always. Judgmental? For your own good.</p>
+                    </div>
+                </div>
+
+                <!-- Product Section -->
+                <div class="content-panel panel-product">
+                    <h2 class="section-title">The <span class="title-highlight">Debut Tee</span></h2>
+                    <div class="product-grid">
+                        <img src="debut-tee.png" alt="Audacity Debut Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/500x600/C0C0C0/000000?text=DEBUT+TEE';">
+                        <div class="product-features">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>100% Heavyweight Cotton</span>
+                                </li>
+                                <li class="feature-item">
+                                    <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>Garment-Dyed Vintage Feel</span>
+                                </li>
+                                <li class="feature-item">
+                                    <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>Unisex Relaxed Fit</span>
+                                </li>
+                                <li class="feature-item">
+                                    <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>Built to Last</span>
+                                </li>
+                            </ul>
+                            <div class="quote-style" style="border-left-color: var(--brand-wine);">
+                                <p><em>"This is not merch. This is emotional expression, disguised as streetwear."</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The Collection -->
+                <div class="content-panel panel-about">
+                    <h2 class="section-title">The <span class="title-highlight">Collection</span></h2>
+                    <div class="manifesto-text">
+                        <p>Each design is a mood. A statement. A whole vibe check disguised as streetwear.</p>
+                    </div>
+                    <div class="quote-style" style="border-left-color: var(--brand-yellow);">
+                        <p><em>"We don't make clothes. We make emotional expressions you can wear."</em></p>
+                    </div>
                     
-                    <form id="signup-form" class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                    <div class="collection-grid">
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="go with the flow - Cover_Thumbnail.png" alt="Therapy Road Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/f5f5f5/000000?text=THERAPY+ROAD';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Therapy Road</h3>
+                                <p>"Turns out 'go with the flow' leads straight to therapy"</p>
+                                <span class="product-specs">White • Regular Fit</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="Plot Twist.png" alt="Plot Twist Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/000000/ffffff?text=PLOT+TWIST';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Plot Twist</h3>
+                                <p>Bold 3D typography for when subtlety isn't an option</p>
+                                <span class="product-specs">Black • Oversized</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="too real to fake.png" alt="Too Real To Fake Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/FF4500/ffffff?text=TOO+REAL';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Too Real To Fake</h3>
+                                <p>3D bubble letters that hit different</p>
+                                <span class="product-specs">Red • Regular Fit</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="allergic to happiness.png" alt="Allergic To Happiness Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/f5f5f5/FF69B4?text=ALLERGIC';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Allergic To Happiness</h3>
+                                <p>Pink gradient energy for the perpetually unbothered</p>
+                                <span class="product-specs">White • Regular Fit</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="world is over you.png" alt="World Is Over You Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/722F37/FF69B4?text=WORLD+OVER+YOU';">
+                            </div>
+                            <div class="product-info">
+                                <h3>World Is Over You</h3>
+                                <p>Spray can aesthetic for maximum attitude</p>
+                                <span class="product-specs">Wine • Oversized</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="Shut up.png" alt="Shut Up Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/000000/FFD700?text=SHUT+UP';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Shut Up</h3>
+                                <p>Minimalist. Direct. Devastating.</p>
+                                <span class="product-specs">Black • Regular Fit</span>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-mockup">
+                                <img src="Untitled Project-3.png" alt="Blame My Retrograde Tee" class="product-image" onerror="this.onerror=null; this.src='https://placehold.co/400x500/f5f5f5/FF69B4?text=RETROGRADE';">
+                            </div>
+                            <div class="product-info">
+                                <h3>Blame My Retrograde</h3>
+                                <p>Astrology petty energy in wearable form</p>
+                                <span class="product-specs">Pink • Regular Fit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600;">Coming Soon: Full Collection Drop</p>
+                        <p style="font-style: italic;">Each piece tells a story. What's yours?</p>
+                    </div>
+                </div>
+
+                <!-- Email Capture Section -->
+                <div class="content-panel panel-email">
+                    <h2 class="section-title">Get The <span class="title-highlight">Drop</span> First</h2>
+                    <p style="font-size: 1.3rem; margin-bottom: 1rem; font-weight: 600; text-align: center;">Be the first to access our debut collection and get a special launch discount, just for being audacious.</p>
+                    <p style="font-size: 1.1rem; text-align: center; font-style: italic;">Where healing is optional, but style is mandatory.</p>
+                    
+                    <form class="email-form" id="signup-form">
                         <input 
                             type="email" 
                             id="email-input"
                             name="email" 
                             placeholder="your.email@example.com" 
                             required
-                            class="form-input flex-grow bg-white text-black placeholder-gray-500 px-4 py-3 rounded-md border-3 border-black text-lg transition"
+                            class="email-input"
                         >
-                        <button 
-                            type="submit"
-                            class="btn-primary bg-black text-white px-8 py-3 rounded-md text-lg"
-                        >
-                            Count Me In
-                        </button>
+                        <button type="submit" class="btn-primary">Count Me In</button>
                     </form>
-                    <div id="form-message" class="mt-4 text-lg font-semibold text-center"></div>
+                    <div id="form-message" class="form-message"></div>
                 </div>
-            </div>
-        </main>
+            </main>
 
-        <!-- Footer -->
-        <footer class="text-center text-gray-500 py-8 mt-8">
-            <p>&copy; 2025 Audacity. Because subtle is overrated.</p>
-        </footer>
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="contact-links">
+                    <a href="mailto:team@theaudacity.in" class="contact-link">
+                        📧 team@theaudacity.in
+                    </a>
+                    <a href="https://www.instagram.com/shoptheaudacityy" target="_blank" class="contact-link">
+                        📱 @shoptheaudacityy
+                    </a>
+                </div>
+                <p>&copy; 2025 Audacity. Because subtle is overrated.</p>
+            </footer>
+        </div>
     </div>
 
     <script>
-        // --- Email Form Submission ---
+        // Loading messages with founder's voice
+        const pettyMessages = [
+            "We don't do soft. We do real.",
+            "Loading your emotional expression...",
+            "Preparing some judgment with style...",
+            "Warning: Zero soft energy ahead...",
+            "Channeling your inner petty bestie..."
+        ];
+
+        let currentMessageIndex = 0;
+        const messageElement = document.getElementById('pettyMessage');
+        
+        // Change messages during loading
+        const messageInterval = setInterval(() => {
+            currentMessageIndex = (currentMessageIndex + 1) % pettyMessages.length;
+            messageElement.textContent = pettyMessages[currentMessageIndex];
+            messageElement.style.animation = 'none';
+            setTimeout(() => {
+                messageElement.style.animation = 'fadeInOut 1.5s ease-in-out';
+            }, 10);
+        }, 1500);
+
+        // Hide loader after animation completes
+        setTimeout(() => {
+            clearInterval(messageInterval);
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('visible');
+        }, 4000);
+
+        // Email form submission
         const form = document.getElementById('signup-form');
         const messageDiv = document.getElementById('form-message');
         const emailInput = document.getElementById('email-input');
 
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', async function(event) {
             event.preventDefault();
             
             const email = emailInput.value;
             console.log(`Email submitted: ${email}`);
             
-            messageDiv.textContent = 'Adding you to the list...';
-            messageDiv.style.color = '#111827'; // a dark gray
+            messageDiv.textContent = 'Adding you to our judgmental bestie list...';
+            messageDiv.style.color = '#000000';
 
-            setTimeout(() => {
-                messageDiv.textContent = 'Thanks! You\'re in. We\'ll be in touch.';
-                messageDiv.style.color = '#16A34A'; // a nice green
-                form.reset();
-            }, 1000);
+            try {
+                // Simulate saving to GitHub
+                const emailData = {
+                    email: email,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent.substring(0, 100)
+                };
+
+                console.log('Would save to GitHub:', emailData);
+                
+                setTimeout(() => {
+                    const responses = [
+                        'Welcome to The Audacity. You\'re officially too cool for subtle.',
+                        'You\'re in! Time to normalize being unapologetically you.',
+                        'Congratulations! You just joined the petty elite.',
+                        'You\'re in the club! Prepare for some serious style with attitude.',
+                        'Welcome, bestie. Let\'s serve some looks and judgment together.',
+                        'You\'re officially part of the emotional expression revolution.'
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    messageDiv.textContent = randomResponse;
+                    messageDiv.style.color = '#722F37';
+                    form.reset();
+                    
+                    // Reset message after 5 seconds
+                    setTimeout(() => {
+                        messageDiv.textContent = '';
+                    }, 5000);
+                }, 1500);
+
+            } catch (error) {
+                console.error('Error saving email:', error);
+                messageDiv.textContent = 'Even we\'re not perfect. Try again, bestie?';
+                messageDiv.style.color = '#722F37';
+            }
+        });
+
+        // Easter egg with founder's voice
+        let clickCount = 0;
+        document.addEventListener('click', function() {
+            clickCount++;
+            if (clickCount === 12) {
+                const pettyAlert = document.createElement('div');
+                pettyAlert.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #FFD700;
+                    color: #000000;
+                    padding: 1.5rem;
+                    border: 5px solid #000000;
+                    font-weight: 700;
+                    z-index: 9999;
+                    box-shadow: 8px 8px 0px 0px #722F37;
+                    max-width: 300px;
+                `;
+                pettyAlert.textContent = "Okay bestie, we get it. You REALLY like clicking. Save some energy for the actual shopping! 🛍️";
+                document.body.appendChild(pettyAlert);
+                
+                setTimeout(() => {
+                    pettyAlert.remove();
+                }, 4000);
+                
+                clickCount = 0;
+            }
         });
     </script>
 </body>
