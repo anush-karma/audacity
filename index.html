@@ -819,14 +819,27 @@
                 // Add new email
                 existingEmails.push(emailData);
 
-                // Save to GitHub (Note: This needs a GitHub token in production)
+                // Save to GitHub with actual API call
                 const updatePayload = {
                     message: `Add email signup: ${email}`,
                     content: btoa(JSON.stringify(existingEmails, null, 2)),
                     sha: fileSha
                 };
 
-                // For now, save to localStorage as backup and show success
+                const saveResponse = await fetch('https://api.github.com/repos/anush-karma/audacity/contents/emails.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'token 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',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatePayload)
+                });
+
+                if (!saveResponse.ok) {
+                    throw new Error('Failed to save to GitHub');
+                }
+
+                // Also save to localStorage as backup
                 localStorage.setItem('audacity-emails', JSON.stringify(existingEmails));
                 
                 setTimeout(() => {
