@@ -254,11 +254,6 @@
             padding: 5px 0;
         }
 
-        @keyframes scrollVertical {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-540px); }
-        }
-
         .gradient-overlay-top,
         .gradient-overlay-bottom {
             position: absolute;
@@ -279,16 +274,20 @@
             background: linear-gradient(0deg, #FCFCFC 0%, transparent 100%);
         }
 
-        /* Product Cards */
-        .product-cards {
+      /* Product Cards */
+.product-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     max-width: 1350px;
-    margin: 0 auto;
-    padding: 80px 0px;
-        }
-        
+    margin: 60px auto 60px;
+    padding: 0 20px;
+}
+
+@keyframes scrollVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-702px); }
+}
 
         .product-card {
             border-radius: 15px;
@@ -442,6 +441,10 @@
             .header-container {
                 flex-direction: column;
             }
+            @keyframes scrollVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-520px); }
+}
 
             .logo-section {
                 border-right: none;
@@ -569,50 +572,49 @@
         </section>
 
         <!-- Collection Section -->
-        <section class="collection-section">
-            <h2 class="collection-title">The Collection</h2>
-            <p class="collection-subtitle">Clothes that let us laugh at the drama and own our mood.</p>
-            
-            <div class="words-container">
-                <span class="audacity-static">Audacity</span>
-                <div class="words-viewport">
-                    <div class="gradient-overlay-top"></div>
-                    <div class="words-list">
-                        <div class="word">petty</div>
-                        <div class="word">wink</div>
-                        <div class="word">toxic</div>
-                        <div class="word">messy</div>
-                        <div class="word">cheeky</div>
-                        <div class="word">playful</div>
-                        <div class="word">sassy</div>
-                        <div class="word">feisty</div>
-                        <div class="word">uncut</div>
-                        <div class="word">punchy</div>
-                        <div class="word">edgy</div>
-                        <!-- Duplicate for seamless loop -->
-                        <div class="word">petty</div>
-                        <div class="word">wink</div>
-                    </div>
-                    <div class="gradient-overlay-bottom"></div>
-                </div>
+<section class="collection-section">
+    <h2 class="collection-title">The Collection</h2>
+    <p class="collection-subtitle">Clothes that let us laugh at the drama and own our mood.</p>
+    
+    <div class="words-container">
+        <span class="audacity-static">Audacity</span>
+        <div class="words-viewport">
+            <div class="gradient-overlay-top"></div>
+            <div class="words-list">
+                <div class="word">petty</div>
+                <div class="word">wink</div>
+                <div class="word">toxic</div>
+                <div class="word">messy</div>
+                <div class="word">cheeky</div>
+                <div class="word">playful</div>
+                <div class="word">sassy</div>
+                <div class="word">feisty</div>
+                <div class="word">uncut</div>
+                <div class="word">punchy</div>
+                <div class="word">edgy</div>
+                <!-- Duplicate for seamless loop -->
+                <div class="word">petty</div>
+                <div class="word">wink</div>
             </div>
+            <div class="gradient-overlay-bottom"></div>
+        </div>
+    </div>
 
-            <a href="#shop" class="cta-button">SHOP NOW</a>
-        </section>
+    <!-- Product Cards moved inside collection section -->
+    <div class="product-cards">
+        <div class="product-card">
+            <img src="1.png" alt="The World Is Over T-shirt">
+        </div>
+        <div class="product-card">
+            <img src="2.png" alt="Don't Blame Me T-shirt">
+        </div>
+        <div class="product-card">
+            <img src="3.png" alt="Plot Twist T-shirt">
+        </div>
+    </div>
 
-        <!-- Product Cards -->
-        <section class="product-cards">
-            <div class="product-card">
-                <img src="1.png" alt="The World Is Over T-shirt">
-            </div>
-            <div class="product-card">
-                <img src="2.png" alt="Don't Blame Me T-shirt">
-            </div>
-            <div class="product-card">
-                <img src="3.png" alt="Plot Twist T-shirt">
-            </div>
-        </section>
-
+    <a href="#shop" class="cta-button">SHOP NOW</a>
+</section>
         <!-- Footer -->
         <footer class="footer-main">
             <div class="footer-container">
