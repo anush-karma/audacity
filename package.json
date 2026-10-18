@@ -1,0 +1,16 @@
+{
+  "name": "audacity-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public",
+    "db:migrate:local": "wrangler d1 migrations apply audacity --local",
+    "db:migrate:remote": "wrangler d1 migrations apply audacity --remote"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.1"
+  }
+}

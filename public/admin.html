@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Orders | Audacity</title>
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<main class="admin">
+<h1 class="wordmark">audacity orders</h1>
+<p><a class="button" href="/api/admin/export">Download CSV</a></p>
+<p class="help">To confirm a UPI payment, check the UTR against the bank statement, then set the order to <b>paid</b>. Setting a service letter to <b>dispatched</b> with a tracking number emails it to the buyer.</p>
+<p class="error" id="error" role="alert"></p>
+<h2>Orders</h2>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th>Product</th><th>Buyer</th><th>Deliver to</th><th>Details</th><th>Payment</th><th>Status and tracking</th></tr></thead><tbody id="orders"></tbody></table></div>
+<h2>Confessions</h2>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>When</th><th>Name</th><th>Email</th><th>File</th></tr></thead><tbody id="confessions"></tbody></table></div>
+</main>
+<script>
+const STATUSES = ['awaiting_payment', 'pending_verification', 'paid', 'dispatched', 'delivered_reported_lost', 'replacement_sent'];
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const addr = (a) => [a.line1, a.line2, a.city, a.state, a.pin].filter(Boolean).join(', ');
+const when = (t) => new Date(t).toLocaleString('en-IN');
+const files = (list) => list.map((f) => `<a href="/api/admin/file?key=${encodeURIComponent(f.key)}">${esc(f.name)}</a>`).join('<br>');
+
+async function load() {
+  const res = await fetch('/api/admin/orders');
+  if (!res.ok) return (document.getElementById('error').textContent = 'Could not load orders.');
+  const { orders, confessions } = await res.json();
+  document.getElementById('orders').innerHTML = orders.map((o) => `<tr>
+    <td>${esc(o.id)}<br><small>${when(o.created_at)}</small></td>
+    <td>${esc(o.product)}<br>₹${o.amount}${o.start_month ? '<br>starts ' + esc(o.start_month) : ''}</td>
+    <td>${esc(o.name)}<br>${esc(o.email)}<br>${esc(o.phone)}<br>${esc(addr(o.address))}</td>
+    <td>${esc(o.delivery.name)}<br>${esc(addr(o.delivery.address))}</td>
+    <td><pre>${esc(Object.entries(o.details).map(([k, v]) => `${k}: ${v}`).join('\n'))}</pre>${files(o.files)}</td>
+    <td>${esc(o.payment_method || '')}<br>${esc(o.razorpay_payment_id || '')}${o.utr ? 'UTR ' + esc(o.utr) : ''}</td>
+    <td><select data-status="${esc(o.id)}">${STATUSES.map((s) => `<option ${s === o.status ? 'selected' : ''}>${s}</option>`).join('')}</select>
+      <input type="text" data-tracking="${esc(o.id)}" value="${esc(o.tracking_id || '')}" placeholder="Tracking number">
+      <button class="text-button" data-save="${esc(o.id)}">Save</button></td>
+  </tr>`).join('');
+  document.getElementById('confessions').innerHTML = confessions.map((c) => `<tr><td>${esc(c.id)}</td><td>${when(c.created_at)}</td><td>${esc(c.name)}</td><td>${esc(c.email)}</td><td>${files(c.files)}</td></tr>`).join('');
+  document.querySelectorAll('[data-save]').forEach((b) => b.addEventListener('click', () => save(b.dataset.save, b)));
+}
+
+async function save(id, button) {
+  const status = document.querySelector(`[data-status="${id}"]`).value;
+  const tracking_id = document.querySelector(`[data-tracking="${id}"]`).value;
+  button.disabled = true;
+  const res = await fetch('/api/admin/orders', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, status, tracking_id }) });
+  const out = await res.json();
+  button.disabled = false;
+  button.textContent = res.ok ? (out.emailed ? 'Saved, tracking emailed' : 'Saved') : out.error;
+}
+
+load();
+</script>
+</body>
+</html>

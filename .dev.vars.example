@@ -1,0 +1,11 @@
+RAZORPAY_KEY_ID=rzp_test_xxxxxxxx
+RAZORPAY_KEY_SECRET=xxxxxxxx
+RAZORPAY_WEBHOOK_SECRET=xxxxxxxx
+RESEND_API_KEY=re_xxxxxxxx
+EMAIL_FROM=Audacity <hello@theaudacity.in>
+FOUNDERS_EMAIL=founders@theaudacity.in
+ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
+UPI_ID=yourname@okaxis
+UPI_PAYEE_NAME=Audacity
+ADMIN_USER=founders
+ADMIN_PASSWORD=change-me
